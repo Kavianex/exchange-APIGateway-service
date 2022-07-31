@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+  apigateway-service:
+    container_name: apigateway-service
+    restart: unless-stopped
+    image: apigateway-service
+    build: .
+    ports:
+      - "8000:80"
