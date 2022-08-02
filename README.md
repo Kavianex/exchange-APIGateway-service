@@ -57,10 +57,10 @@ In the project directory you have the following options:
         pip install -r requirements.txt
         ```
 
-    2.  Run it with uvicorn:
+    2.  Run the following command:
 
         ```
-        uvicorn app.main:app
+        python app/main.py
         ```
 
 * Docker:

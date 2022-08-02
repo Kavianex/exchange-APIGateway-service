@@ -13,3 +13,4 @@ SERVICE_HOSTS = {
     "market": os.getenv('MARKET_HOST', 'http://127.0.0.1:8001'),
     "engine": os.getenv('ENGINE_HOST', 'http://127.0.0.1:8002'),
 }
+SERVICE_PORT = int(os.getenv("SERVICE_PORT", 8000))

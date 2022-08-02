@@ -3,11 +3,8 @@ from fastapi import HTTPException
 from eth_account.messages import encode_defunct
 from hexbytes import HexBytes
 import time
-try:
-    from app import enums, settings
-except ImportError:
-    import enums
-    import settings
+import enums
+import settings
 
 
 def authenticate(authorization: str) -> str:

@@ -1,11 +1,13 @@
-from fastapi import FastAPI, APIRouter, Depends, Header, Response
+from fastapi import FastAPI, Response
 import requests
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
-from app import auth, settings
+import auth
+import settings
+import uvicorn
 
 private_methods = ["POST", "PUT", "PATCH", "DELETE"]
-public_methods = ["GET"]
+public_methods = ["GET", "HEAD", "OPTIONS"]
 methods = private_methods + public_methods
 app = FastAPI()
 
@@ -59,3 +61,11 @@ async def _reverse_proxy(request: Request):
     )
 
 app.add_route("/{service}/{path:path}", _reverse_proxy, methods=methods)
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=settings.SERVICE_PORT,
+        log_level="info"
+    )
