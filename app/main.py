@@ -6,10 +6,20 @@ import auth
 import settings
 import uvicorn
 
+
 private_methods = ["POST", "PUT", "PATCH", "DELETE"]
 public_methods = ["GET", "HEAD", "OPTIONS"]
 methods = private_methods + public_methods
+origins = [""]
+
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=False,
+    allow_methods=public_methods,
+    allow_headers=["*"],
+)
 
 
 def get_url(path: str):
