@@ -7,6 +7,11 @@ import enums
 import settings
 
 
+class AuthException(Exception):
+    def __init__(self, name: str):
+        self.name = name
+
+
 def authenticate(authorization: str) -> str:
     wallet_address = ''
     try:
@@ -21,12 +26,12 @@ def authenticate(authorization: str) -> str:
                 signature=signature
             ).lower()
             if not wallet == wallet_address:
-                raise Exception('InvalidSignature')
+                raise AuthException('InvalidSignature')
         else:
-            raise Exception("TokenExpired")
+            raise AuthException("TokenExpired")
     except Exception as e:
-        if wallet_address:
-            raise HTTPException(401, str(e))
+        if isinstance(e, AuthException):
+            raise HTTPException(401, e.name)
         raise HTTPException(401, 'InvalidFormat')
     return wallet_address
 
