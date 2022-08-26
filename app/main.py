@@ -26,17 +26,17 @@ def get_url(path: str):
     service, host = get_host(path=path)
     url = ''
     if host:
-        path = path.replace(f'/{service}', '')
+        path = path[len(service)+1:]
         url = f"{host}{path}"
     return url
 
 
 def get_host(path: str):
     service = ''
-    if path.startswith("/market"):
-        service = 'market'
-    elif path.startswith("/engine"):
-        service = 'engine'
+    for service_name in settings.SERVICE_HOSTS:
+        if path.startswith(f"/{service_name}"):
+            service = service_name
+            break
     return service, settings.SERVICE_HOSTS.get(service, None)
 
 

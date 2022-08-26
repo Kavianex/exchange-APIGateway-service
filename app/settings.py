@@ -12,5 +12,6 @@ TOKEN_EXPIRE_TIME = int(os.getenv('TOKEN_EXPIRE_TIME', 4 * 60 * 60 * 1000))
 SERVICE_HOSTS = {
     "market": os.getenv('MARKET_HOST', 'http://127.0.0.1:8001'),
     "engine": os.getenv('ENGINE_HOST', 'http://127.0.0.1:8002'),
+    "account": os.getenv('ACCOUNT_HOST', 'http://127.0.0.1:8003'),
 }
 SERVICE_PORT = int(os.getenv("SERVICE_PORT", 8000))
