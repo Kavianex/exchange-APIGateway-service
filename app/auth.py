@@ -60,15 +60,3 @@ def get_address(message, signature):
     signature = HexBytes(signature)
     address = w3.eth.account.recover_message(message, signature=signature)
     return address
-
-
-def get_token(wallet: str = settings.ADMIN_WALLET_ADDRESS, private_key: str = settings.TEST_PRIVATE_KEY) -> str:
-    expire = int(time.time() * 1000) + settings.TOKEN_EXPIRE_TIME
-    message = f"{wallet.lower()}:{expire}"
-    signature = sign(message=message, private_key=private_key)
-    return f"{message} {signature}"
-
-
-if __name__ == "__main__":
-    token = get_token()
-    print(token)
