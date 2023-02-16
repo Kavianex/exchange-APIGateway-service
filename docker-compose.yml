@@ -10,7 +10,8 @@ services:
       - .env
     ports:
       - "127.0.0.1:8000:80"
+
 networks:
   default:
-    external:
-      name: kavianex
+    external: true
+    name: kavianex
