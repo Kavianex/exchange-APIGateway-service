@@ -5,14 +5,17 @@ from starlette.requests import Request
 import auth
 import settings
 import uvicorn
-
+from fastapi.openapi.utils import get_openapi
+from fastapi.openapi.docs import (
+    get_swagger_ui_html,
+)
 
 private_methods = ["POST", "PUT", "PATCH", "DELETE"]
 public_methods = ["GET", "HEAD", "OPTIONS"]
 methods = private_methods + public_methods
 origins = settings.ALLOWED_ORIGINS
 
-app = FastAPI()
+app = FastAPI(title="Kavianex | API", version="0.1.0", docs_url=None)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -20,6 +23,44 @@ app.add_middleware(
     allow_methods=methods,
     allow_headers=["*"],
 )
+
+
+def my_schema():
+    openapi_schema = get_openapi(
+        title="The Kavianex API Documents",
+        version="1.0",
+        routes=app.routes,
+    )
+    openapi_schema["info"] = {
+        "title": "The Kavianex API Documents",
+        "version": "1.0",
+        "description": "Learn about programming language history!",
+        "termsOfService": "http://www.kavianex.com/terms/",
+        "contact": {
+            "name": "Get Help with this API",
+            # "url": "https://.com/help",
+            "email": "info@kavianex.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/license/mit/"
+        },
+    }
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = my_schema
+
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    return get_swagger_ui_html(
+        openapi_url="/api/openapi.json",
+        title=app.title,
+        oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
+        swagger_js_url="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3/swagger-ui-bundle.js",
+        swagger_css_url="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3/swagger-ui.css")
 
 
 def get_url(path: str):
