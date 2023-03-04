@@ -25,33 +25,6 @@ app.add_middleware(
 )
 
 
-def my_schema():
-    openapi_schema = get_openapi(
-        title="The Kavianex API Documents",
-        version="1.0",
-        routes=app.routes,
-    )
-    openapi_schema["info"] = {
-        "title": "The Kavianex API Documents",
-        "version": "1.0",
-        "description": "Learn about programming language history!",
-        "termsOfService": "http://www.kavianex.com/terms/",
-        "contact": {
-            "name": "Get Help with this API",
-            # "url": "https://.com/help",
-            "email": "info@kavianex.com"
-        },
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/license/mit/"
-        },
-    }
-    app.openapi_schema = openapi_schema
-    return app.openapi_schema
-
-
-app.openapi = my_schema
-
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():
@@ -97,7 +70,8 @@ async def _reverse_proxy(request: Request):
     role = auth.authorize(wallet)
     headers = {
         "role": role,
-        "wallet": wallet
+        "wallet": wallet,
+        "account_id": request.headers.get("account_id", '')
     }
     response = requests.request(
         method=request.method,
