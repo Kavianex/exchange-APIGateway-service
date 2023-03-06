@@ -71,7 +71,7 @@ async def _reverse_proxy(request: Request):
     headers = {
         "role": role,
         "wallet": wallet,
-        "account_id": request.headers.get("account_id", '')
+        "account-id": request.headers.get("account-id", '')
     }
     response = requests.request(
         method=request.method,
