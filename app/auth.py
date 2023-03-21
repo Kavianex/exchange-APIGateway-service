@@ -17,10 +17,16 @@ def authenticate(authorization: str) -> str:
     try:
         message, signature = authorization.split(' ')
         now = int(time.time() * 1000)
-        wallet, expire = message.split(':')
+        info = message.split(':')
+        wallet = info[0]
+        expire = info[1]
         expire = int(expire)
         time_to_expire = expire - now
-        if 0 < time_to_expire < settings.TOKEN_EXPIRE_TIME:
+        if len(info) > 2 and info[2] == 'APIKEY':
+            not_expired = 0 < time_to_expire < settings.APIKEY_EXPIRE_TIME
+        else:
+            not_expired = 0 < time_to_expire < settings.TOKEN_EXPIRE_TIME
+        if not_expired:
             wallet_address = get_address(
                 message=message,
                 signature=signature
