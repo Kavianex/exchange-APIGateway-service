@@ -5,7 +5,8 @@ ADMIN_WALLET_ADDRESS = os.getenv(
     ''
 ).lower()
 TOKEN_EXPIRE_TIME = int(os.getenv('TOKEN_EXPIRE_TIME', 4 * 3600 * 1000))
-APIKEY_EXPIRE_TIME = int(os.getenv('APIKEY_EXPIRE_TIME', 360 * 24 * 3600 * 1000))
+APIKEY_EXPIRE_TIME = int(
+    os.getenv('APIKEY_EXPIRE_TIME', 370 * 24 * 3600 * 1000))
 SERVICE_HOSTS = {
     "api": os.getenv('API_HOST', 'http://127.0.0.1:8002'),
 }

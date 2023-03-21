@@ -31,7 +31,7 @@ def authenticate(authorization: str) -> str:
                 message=message,
                 signature=signature
             ).lower()
-            if not wallet == wallet_address:
+            if not wallet.lower() == wallet_address:
                 raise AuthException('InvalidSignature')
         else:
             raise AuthException("TokenExpired")
